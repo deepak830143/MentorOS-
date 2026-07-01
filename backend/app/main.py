@@ -1,17 +1,25 @@
 from fastapi import FastAPI
+
 from app.core.config import settings
+from app.db.base import Base
+from app.db.database import engine
+
+# Import all models
+from app.models.user import User
+
+# Create database tables
+Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
     title=settings.APP_NAME,
-    description="AI-Powered Competitive Exam Operating System",
-    version=settings.APP_VERSION
+    version=settings.APP_VERSION,
 )
 
 
 @app.get("/")
 def root():
     return {
-        "message": f"Welcome to {settings.APP_NAME} 🚀",
+        "message": "Welcome to MentorOS 🚀",
         "version": settings.APP_VERSION,
         "status": "running"
     }
@@ -20,6 +28,5 @@ def root():
 @app.get("/health")
 def health():
     return {
-        "status": "healthy",
-        "service": settings.APP_NAME
+        "status": "healthy"
     }

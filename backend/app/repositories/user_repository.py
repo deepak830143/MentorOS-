@@ -12,6 +12,10 @@ class UserRepository:
         return db.query(User).filter(User.email == email).first()
 
     @staticmethod
+    def authenticate(db: Session, email: str):
+        return db.query(User).filter(User.email == email).first()
+
+    @staticmethod
     def create(db: Session, user: UserCreate):
         db_user = User(
             name=user.name,
